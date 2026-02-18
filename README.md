@@ -1,16 +1,28 @@
-# dulce_encargo_app
+# DulceEncargo 🧁
 
-A new Flutter project.
 
-## Getting Started
+DulceEncargo es una aplicación de pedidos de repostería artesanal, usando Flutter y Hive. Permite gestionar productos, carrito de compras, pedidos e historial, con persistencia offline y un diseño moderno y responsive.
 
-This project is a starting point for a Flutter application.
+## 🌐 Demo en vivo
+Puedes probar la app directamente en tu navegador:  
+🔗 https://dulce-encargo.web.app/
 
-A few resources to get you started if this is your first Flutter project:
+## 📌 Funcionalidades
+- Catálogo de productos con GridView responsive
+- Carrito de compras con actualización en tiempo real usando Provider
+- Gestión de pedidos con formularios validados
+- Historial de pedidos con filtros y opción de duplicar pedidos
+- Persistencia local offline con Hive
+- Widgets reutilizables y sistema de colores centralizado
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 💻 Tecnologías
+- Flutter & Dart
+- Hive Database
+- Provider Pattern
+- Firebase Hosting (para web)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🚀 Cómo ejecutar
+1. Clonar el repositorio: `git clone <URL>`
+2. Instalar dependencias: `flutter pub get`
+3. Ejecutar la app: `flutter run` o instalar el APK
+
