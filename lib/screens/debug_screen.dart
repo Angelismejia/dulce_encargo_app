@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../providers/carrito_provider.dart';
 import '../services/database_services.dart';
-import '../models/producto.dart';
-import '../models/pedido.dart';
 import '../data/lista_productos.dart';
 
 class DebugScreen extends StatefulWidget {
