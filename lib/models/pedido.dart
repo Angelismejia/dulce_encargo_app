@@ -42,6 +42,14 @@ class Pedido {
   final double total;
   final String? notas;
 
+  /// 'Entrega a domicilio' o 'Recoger en tienda'.
+  final String modalidad;
+
+  /// Texto para escribir sobre el pastel, si aplica.
+  final String? mensajePastel;
+  final String? cupon;
+  final double descuento;
+
   Pedido({
     required this.id,
     required this.items,
@@ -53,7 +61,32 @@ class Pedido {
     required this.estado,
     required this.total,
     this.notas,
+    this.modalidad = 'Entrega a domicilio',
+    this.mensajePastel,
+    this.cupon,
+    this.descuento = 0,
   });
+
+  double get subtotal => total + descuento;
+
+  bool get esRecogida => modalidad == 'Recoger en tienda';
+
+  Pedido copyWith({String? estado}) => Pedido(
+        id: id,
+        items: items,
+        nombreCliente: nombreCliente,
+        telefono: telefono,
+        direccion: direccion,
+        fechaPedido: fechaPedido,
+        fechaEntrega: fechaEntrega,
+        estado: estado ?? this.estado,
+        total: total,
+        notas: notas,
+        modalidad: modalidad,
+        mensajePastel: mensajePastel,
+        cupon: cupon,
+        descuento: descuento,
+      );
 
   Map<String, dynamic> toMap() {
     return {
@@ -67,6 +100,10 @@ class Pedido {
       'estado': estado,
       'total': total,
       'notas': notas,
+      'modalidad': modalidad,
+      'mensajePastel': mensajePastel,
+      'cupon': cupon,
+      'descuento': descuento,
     };
   }
 
@@ -84,6 +121,10 @@ class Pedido {
       estado: map['estado'],
       total: map['total'].toDouble(),
       notas: map['notas'],
+      modalidad: map['modalidad'] ?? 'Entrega a domicilio',
+      mensajePastel: map['mensajePastel'],
+      cupon: map['cupon'],
+      descuento: (map['descuento'] ?? 0).toDouble(),
     );
   }
 }
