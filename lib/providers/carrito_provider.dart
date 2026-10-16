@@ -2,21 +2,57 @@ import 'package:flutter/material.dart';
 import '../models/producto.dart';
 import '../models/pedido.dart';
 import '../services/database_services.dart';
+import '../data/cupones.dart';
+import '../utils/formato.dart';
 
 class CarritoProvider with ChangeNotifier {
   List<ItemPedido> _items = [];
   List<Pedido> _historial = [];
   bool _isLoading = false;
   bool _isInitialized = false;
+  Set<String> _favoritos = {};
+  Cupon? _cupon;
 
   List<ItemPedido> get items => _items;
-  List<Pedido> get historial => _historial..sort((a, b) => b.fechaPedido.compareTo(a.fechaPedido));
+  List<Pedido> get historial =>
+      List.of(_historial)..sort((a, b) => b.fechaPedido.compareTo(a.fechaPedido));
   bool get isLoading => _isLoading;
   bool get isInitialized => _isInitialized;
 
   int get itemCount => _items.fold(0, (sum, item) => sum + item.cantidad);
 
+  /// Subtotal del carrito (antes de descuentos).
   double get total => _items.fold(0.0, (sum, item) => sum + item.subtotal);
+
+  Cupon? get cupon => _cupon;
+  double get descuento => _cupon?.descuentoPara(total) ?? 0;
+  double get totalAPagar => total - descuento;
+
+  Set<String> get favoritos => _favoritos;
+  bool esFavorito(String productoId) => _favoritos.contains(productoId);
+
+  Future<void> alternarFavorito(String productoId) async {
+    if (!_favoritos.remove(productoId)) _favoritos.add(productoId);
+    notifyListeners();
+    await DatabaseService.guardarFavoritos(_favoritos);
+  }
+
+  /// Aplica un cupón. Devuelve un mensaje de error o `null` si se aplicó.
+  String? aplicarCupon(String codigo) {
+    final cupon = buscarCupon(codigo);
+    if (cupon == null) return 'Ese cupón no existe';
+    if (!cupon.aplicaA(total)) {
+      return 'Este cupón aplica en pedidos desde ${formatoPrecio(cupon.minimo)}';
+    }
+    _cupon = cupon;
+    notifyListeners();
+    return null;
+  }
+
+  void quitarCupon() {
+    _cupon = null;
+    notifyListeners();
+  }
 
   // Estadísticas generales
   int get totalPedidosRealizados => _historial.length;
@@ -41,11 +77,12 @@ class CarritoProvider with ChangeNotifier {
 
       _items = DatabaseService.cargarCarrito();
       _historial = DatabaseService.cargarHistorial();
+      _favoritos = DatabaseService.cargarFavoritos();
       _isInitialized = true;
 
-      print('✅ Provider inicializado: ${_items.length} items, ${_historial.length} pedidos');
+      debugPrint('✅ Provider inicializado: ${_items.length} items, ${_historial.length} pedidos');
     } catch (e) {
-      print('❌ Error inicializando provider: $e');
+      debugPrint('❌ Error inicializando provider: $e');
       _items = [];
       _historial = [];
       _isInitialized = false;
@@ -86,10 +123,10 @@ class CarritoProvider with ChangeNotifier {
       }
 
       await DatabaseService.guardarCarrito(_items);
-      print('✅ Item agregado y guardado: ${producto.nombre} (${cantidad}x)');
+      debugPrint('✅ Item agregado y guardado: ${producto.nombre} (${cantidad}x)');
       notifyListeners();
     } catch (e) {
-      print('❌ Error agregando item: $e');
+      debugPrint('❌ Error agregando item: $e');
       rethrow;
     }
   }
@@ -101,10 +138,10 @@ class CarritoProvider with ChangeNotifier {
       final producto = _items[index].producto.nombre;
       _items.removeAt(index);
       await DatabaseService.guardarCarrito(_items);
-      print('✅ Item removido: $producto');
+      debugPrint('✅ Item removido: $producto');
       notifyListeners();
     } catch (e) {
-      print('❌ Error removiendo item: $e');
+      debugPrint('❌ Error removiendo item: $e');
       rethrow;
     }
   }
@@ -122,11 +159,11 @@ class CarritoProvider with ChangeNotifier {
           personalizacion: _items[index].personalizacion,
         );
         await DatabaseService.guardarCarrito(_items);
-        print('✅ Cantidad actualizada: ${_items[index].producto.nombre} -> ${nuevaCantidad}');
+        debugPrint('✅ Cantidad actualizada: ${_items[index].producto.nombre} -> $nuevaCantidad');
         notifyListeners();
       }
     } catch (e) {
-      print('❌ Error actualizando cantidad: $e');
+      debugPrint('❌ Error actualizando cantidad: $e');
       rethrow;
     }
   }
@@ -135,20 +172,23 @@ class CarritoProvider with ChangeNotifier {
     try {
       _items.clear();
       await DatabaseService.limpiarCarrito();
-      print('✅ Carrito limpiado');
+      debugPrint('✅ Carrito limpiado');
       notifyListeners();
     } catch (e) {
-      print('❌ Error limpiando carrito: $e');
+      debugPrint('❌ Error limpiando carrito: $e');
       rethrow;
     }
   }
 
-  Future<void> realizarPedido({
+  /// Crea y guarda el pedido; devuelve el pedido creado.
+  Future<Pedido> realizarPedido({
     required String nombreCliente,
     required String telefono,
     required String direccion,
     required DateTime fechaEntrega,
     String? notas,
+    String modalidad = 'Entrega a domicilio',
+    String? mensajePastel,
   }) async {
     if (_items.isEmpty) {
       throw Exception('El carrito está vacío');
@@ -164,8 +204,12 @@ class CarritoProvider with ChangeNotifier {
         fechaPedido: DateTime.now(),
         fechaEntrega: fechaEntrega,
         estado: 'Pendiente',
-        total: total,
+        total: totalAPagar,
         notas: notas,
+        modalidad: modalidad,
+        mensajePastel: mensajePastel,
+        cupon: descuento > 0 ? _cupon?.codigo : null,
+        descuento: descuento,
       );
 
       // Guardar pedido primero
@@ -175,15 +219,17 @@ class CarritoProvider with ChangeNotifier {
       _historial.add(pedido);
 
       // Limpiar carrito después
+      _cupon = null;
       await limpiarCarrito();
 
       // Forzar sincronización
       await DatabaseService.sincronizar();
 
-      print('✅ Pedido realizado exitosamente: ${pedido.id}');
+      debugPrint('✅ Pedido realizado exitosamente: ${pedido.id}');
       notifyListeners();
+      return pedido;
     } catch (e) {
-      print('❌ Error realizando pedido: $e');
+      debugPrint('❌ Error realizando pedido: $e');
       rethrow;
     }
   }
@@ -193,10 +239,10 @@ class CarritoProvider with ChangeNotifier {
       await DatabaseService.eliminarPedido(id);
       _historial.removeWhere((pedido) => pedido.id == id);
       await DatabaseService.sincronizar();
-      print('✅ Pedido eliminado: $id');
+      debugPrint('✅ Pedido eliminado: $id');
       notifyListeners();
     } catch (e) {
-      print('❌ Error eliminando pedido: $e');
+      debugPrint('❌ Error eliminando pedido: $e');
       rethrow;
     }
   }
@@ -214,9 +260,9 @@ class CarritoProvider with ChangeNotifier {
         );
       }
 
-      print('✅ Pedido duplicado: $pedidoId');
+      debugPrint('✅ Pedido duplicado: $pedidoId');
     } catch (e) {
-      print('❌ Error duplicando pedido: $e');
+      debugPrint('❌ Error duplicando pedido: $e');
       rethrow;
     }
   }
@@ -226,27 +272,16 @@ class CarritoProvider with ChangeNotifier {
     try {
       final index = _historial.indexWhere((p) => p.id == pedidoId);
       if (index != -1) {
-        final pedidoActualizado = Pedido(
-          id: _historial[index].id,
-          items: _historial[index].items,
-          nombreCliente: _historial[index].nombreCliente,
-          telefono: _historial[index].telefono,
-          direccion: _historial[index].direccion,
-          fechaPedido: _historial[index].fechaPedido,
-          fechaEntrega: _historial[index].fechaEntrega,
-          estado: nuevoEstado,
-          total: _historial[index].total,
-          notas: _historial[index].notas,
-        );
+        final pedidoActualizado = _historial[index].copyWith(estado: nuevoEstado);
 
         _historial[index] = pedidoActualizado;
         await DatabaseService.guardarPedido(pedidoActualizado);
         await DatabaseService.sincronizar();
-        print('✅ Estado actualizado: $pedidoId -> $nuevoEstado');
+        debugPrint('✅ Estado actualizado: $pedidoId -> $nuevoEstado');
         notifyListeners();
       }
     } catch (e) {
-      print('❌ Error actualizando estado: $e');
+      debugPrint('❌ Error actualizando estado: $e');
       rethrow;
     }
   }
@@ -350,9 +385,9 @@ class CarritoProvider with ChangeNotifier {
   Future<void> sincronizar() async {
     try {
       await DatabaseService.sincronizar();
-      print('✅ Provider sincronizado');
+      debugPrint('✅ Provider sincronizado');
     } catch (e) {
-      print('❌ Error sincronizando provider: $e');
+      debugPrint('❌ Error sincronizando provider: $e');
       rethrow;
     }
   }

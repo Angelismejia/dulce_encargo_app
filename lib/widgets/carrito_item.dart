@@ -1,177 +1,199 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/pedido.dart';
+import '../providers/carrito_provider.dart';
 import '../utils/colores.dart';
+import '../utils/formato.dart';
+import 'producto_imagen.dart';
 
+/// Tarjeta horizontal blanca del carrito.
 class CarritoItem extends StatelessWidget {
   final ItemPedido item;
   final VoidCallback onRemove;
-  final Function(int) onUpdateQuantity;
+  final ValueChanged<int> onUpdateQuantity;
 
   const CarritoItem({
-    Key? key,
+    super.key,
     required this.item,
     required this.onRemove,
     required this.onUpdateQuantity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 10),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    final p = item.producto;
+    final favorito = context.select<CarritoProvider, bool>((c) => c.esFavorito(p.id));
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(26),
+        boxShadow: [
+          BoxShadow(color: AppColors.rosaFuerte.withValues(alpha: 0.18), blurRadius: 16, offset: const Offset(0, 6)),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
+      child: IntrinsicHeight(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Imagen del producto
+            // Imagen sobre fondo rosa claro.
             Container(
-              width: 80,
-              height: 80,
+              width: 92,
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                color: AppColors.rosaClaro,
+                borderRadius: BorderRadius.circular(20),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  item.producto.imagen,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey[300],
-                      child: Icon(
-                        Icons.cake,
-                        color: Colors.grey[600],
-                      ),
-                    );
-                  },
+                borderRadius: BorderRadius.circular(16),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ProductoImagen(src: p.imagen, anchoDecodificado: 100),
                 ),
               ),
             ),
-
-            SizedBox(width: 10),
-
-            // Información del producto
+            const SizedBox(width: 12),
+            // Nombre, descripción y acciones.
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    item.producto.nombre,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'RD\$ ${item.producto.precio.toStringAsFixed(0)} c/u',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  if (item.personalizacion != null) ...[
-                    SizedBox(height: 4),
-                    Text(
-                      'Personalización: ${item.personalizacion}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.primary,
-                        fontStyle: FontStyle.italic,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        p.nombre,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppColors.marron, height: 1.25),
                       ),
-                    ),
-                  ],
-                  SizedBox(height: 8),
-                  Text(
-                    'Subtotal: RD\$ ${item.subtotal.toStringAsFixed(0)}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                    ),
+                      const SizedBox(height: 2),
+                      Text(
+                        item.personalizacion != null ? '“${item.personalizacion}”' : p.descripcion,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: AppColors.gris,
+                          height: 1.3,
+                          fontStyle: item.personalizacion != null ? FontStyle.italic : FontStyle.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        formatoPrecio(item.subtotal),
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5, color: AppColors.rosaFuerte),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _IconoAccion(
+                        icono: favorito ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                        tooltip: favorito ? 'Quitar de favoritos' : 'Agregar a favoritos',
+                        onTap: () => context.read<CarritoProvider>().alternarFavorito(p.id),
+                      ),
+                      const SizedBox(width: 6),
+                      _IconoAccion(
+                        icono: Icons.delete_outline_rounded,
+                        tooltip: 'Eliminar ${p.nombre}',
+                        onTap: onRemove,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-
-            // Controles de cantidad
-            Column(
-              children: [
-                // Botón eliminar
-                IconButton(
-                  onPressed: onRemove,
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: Colors.red,
+            const SizedBox(width: 10),
+            // Control vertical de cantidad.
+            Container(
+              width: 50,
+              decoration: BoxDecoration(
+                color: AppColors.rosaClaro,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _BotonCantidad(
+                    icono: Icons.add_rounded,
+                    tooltip: 'Agregar uno',
+                    onTap: () => onUpdateQuantity(item.cantidad + 1),
                   ),
-                  constraints: BoxConstraints(),
-                  padding: EdgeInsets.all(4),
-                ),
-
-                SizedBox(height: 10),
-
-                // Controles de cantidad
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (item.cantidad > 1) {
-                          onUpdateQuantity(item.cantidad - 1);
-                        }
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: item.cantidad > 1 ? AppColors.primary : Colors.grey,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 220),
+                    transitionBuilder: (child, anim) => ScaleTransition(
+                      scale: Tween(begin: 0.6, end: 1.0).animate(anim),
+                      child: FadeTransition(opacity: anim, child: child),
                     ),
-
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        '${item.cantidad}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    child: Text(
+                      '${item.cantidad}',
+                      key: ValueKey(item.cantidad),
+                      semanticsLabel: 'Cantidad ${item.cantidad}',
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.rosaFuerte),
                     ),
-
-                    GestureDetector(
-                      onTap: () => onUpdateQuantity(item.cantidad + 1),
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                  _BotonCantidad(
+                    icono: Icons.remove_rounded,
+                    tooltip: 'Quitar uno',
+                    onTap: item.cantidad > 1 ? () => onUpdateQuantity(item.cantidad - 1) : null,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _IconoAccion extends StatelessWidget {
+  final IconData icono;
+  final String tooltip;
+  final VoidCallback onTap;
+  const _IconoAccion({required this.icono, required this.tooltip, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 36,
+      height: 36,
+      child: IconButton(
+        tooltip: tooltip,
+        padding: EdgeInsets.zero,
+        onPressed: onTap,
+        style: IconButton.styleFrom(backgroundColor: AppColors.rosaClaro),
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (c, a) => ScaleTransition(scale: a, child: c),
+          child: Icon(icono, key: ValueKey(icono), color: AppColors.rosaFuerte, size: 19),
+        ),
+      ),
+    );
+  }
+}
+
+class _BotonCantidad extends StatelessWidget {
+  final IconData icono;
+  final String tooltip;
+  final VoidCallback? onTap;
+  const _BotonCantidad({required this.icono, required this.tooltip, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: IconButton(
+        tooltip: tooltip,
+        onPressed: onTap,
+        padding: EdgeInsets.zero,
+        icon: Icon(icono, size: 22),
+        color: AppColors.rosaFuerte,
+        disabledColor: AppColors.rosaPastel,
       ),
     );
   }

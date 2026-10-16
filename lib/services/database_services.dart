@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../data/lista_productos.dart';
 import '../models/producto.dart';
 import '../models/pedido.dart';
 
@@ -12,22 +14,27 @@ class DatabaseService {
   static Box? _historialBoxRef;
   static Box? _clienteBoxRef;
 
-  static Future<void> initHive() async {
+  /// [path] permite usar un directorio propio (por ejemplo en pruebas).
+  static Future<void> initHive({String? path}) async {
     try {
-      await Hive.initFlutter();
-      print('✅ Hive inicializado');
+      if (path != null) {
+        Hive.init(path);
+      } else {
+        await Hive.initFlutter();
+      }
+      debugPrint('✅ Hive inicializado');
 
       // Abrir las cajas y mantener referencias
       _carritoBoxRef = await Hive.openBox(_carritoBoxName);
       _historialBoxRef = await Hive.openBox(_historialBoxName);
       _clienteBoxRef = await Hive.openBox(_clienteBoxName);
 
-      print('✅ Cajas de Hive abiertas correctamente');
-      print('- Carrito: ${_carritoBoxRef?.isOpen}');
-      print('- Historial: ${_historialBoxRef?.isOpen}');
-      print('- Cliente: ${_clienteBoxRef?.isOpen}');
+      debugPrint('✅ Cajas de Hive abiertas correctamente');
+      debugPrint('- Carrito: ${_carritoBoxRef?.isOpen}');
+      debugPrint('- Historial: ${_historialBoxRef?.isOpen}');
+      debugPrint('- Cliente: ${_clienteBoxRef?.isOpen}');
     } catch (e) {
-      print('❌ Error inicializando Hive: $e');
+      debugPrint('❌ Error inicializando Hive: $e');
       rethrow;
     }
   }
@@ -77,9 +84,9 @@ class DatabaseService {
 
       await box.put('items', itemsMap);
       await box.flush(); // Forzar escritura inmediata
-      print('✅ Carrito guardado: ${items.length} items');
+      debugPrint('✅ Carrito guardado: ${items.length} items');
     } catch (e) {
-      print('❌ Error guardando carrito: $e');
+      debugPrint('❌ Error guardando carrito: $e');
       rethrow;
     }
   }
@@ -90,7 +97,7 @@ class DatabaseService {
       final data = box.get('items');
 
       if (data == null) {
-        print('📝 Carrito vacío');
+        debugPrint('📝 Carrito vacío');
         return [];
       }
 
@@ -101,7 +108,8 @@ class DatabaseService {
           nombre: productoData['nombre'],
           descripcion: productoData['descripcion'],
           precio: (productoData['precio'] as num).toDouble(),
-          imagen: productoData['imagen'],
+          // Las imágenes viven ahora en assets; se toma la del catálogo actual.
+                imagen: ListaProductos.buscarPorId(productoData['id'])?.imagen ?? productoData['imagen'],
           categoria: productoData['categoria'],
           disponible: productoData['disponible'] ?? true,
         );
@@ -113,10 +121,10 @@ class DatabaseService {
         );
       }).toList();
 
-      print('✅ Carrito cargado: ${items.length} items');
+      debugPrint('✅ Carrito cargado: ${items.length} items');
       return items;
     } catch (e) {
-      print('❌ Error cargando carrito: $e');
+      debugPrint('❌ Error cargando carrito: $e');
       return [];
     }
   }
@@ -126,9 +134,9 @@ class DatabaseService {
       final box = carritoBox;
       await box.delete('items');
       await box.flush();
-      print('✅ Carrito limpiado');
+      debugPrint('✅ Carrito limpiado');
     } catch (e) {
-      print('❌ Error limpiando carrito: $e');
+      debugPrint('❌ Error limpiando carrito: $e');
       rethrow;
     }
   }
@@ -162,13 +170,17 @@ class DatabaseService {
         'estado': pedido.estado,
         'total': pedido.total,
         'notas': pedido.notas,
+        'modalidad': pedido.modalidad,
+        'mensajePastel': pedido.mensajePastel,
+        'cupon': pedido.cupon,
+        'descuento': pedido.descuento,
       };
 
       await box.put(pedido.id, pedidoMap);
       await box.flush(); // Forzar escritura inmediata
-      print('✅ Pedido guardado: ${pedido.id}');
+      debugPrint('✅ Pedido guardado: ${pedido.id}');
     } catch (e) {
-      print('❌ Error guardando pedido: $e');
+      debugPrint('❌ Error guardando pedido: $e');
       rethrow;
     }
   }
@@ -189,7 +201,8 @@ class DatabaseService {
                 nombre: productoData['nombre'],
                 descripcion: productoData['descripcion'],
                 precio: (productoData['precio'] as num).toDouble(),
-                imagen: productoData['imagen'],
+                // Las imágenes viven ahora en assets; se toma la del catálogo actual.
+                imagen: ListaProductos.buscarPorId(productoData['id'])?.imagen ?? productoData['imagen'],
                 categoria: productoData['categoria'],
                 disponible: productoData['disponible'] ?? true,
               );
@@ -212,26 +225,30 @@ class DatabaseService {
               estado: data['estado'],
               total: (data['total'] as num).toDouble(),
               notas: data['notas'] as String?,
+              modalidad: data['modalidad'] as String? ?? 'Entrega a domicilio',
+              mensajePastel: data['mensajePastel'] as String?,
+              cupon: data['cupon'] as String?,
+              descuento: (data['descuento'] as num? ?? 0).toDouble(),
             );
 
             pedidos.add(pedido);
           }
         } catch (e) {
-          print('❌ Error cargando pedido con key $key: $e');
+          debugPrint('❌ Error cargando pedido con key $key: $e');
           // Eliminar entrada corrupta
           try {
             historialBox.delete(key);
-            print('🗑️ Entrada corrupta eliminada: $key');
+            debugPrint('🗑️ Entrada corrupta eliminada: $key');
           } catch (deleteError) {
-            print('❌ Error eliminando entrada corrupta: $deleteError');
+            debugPrint('❌ Error eliminando entrada corrupta: $deleteError');
           }
         }
       }
 
-      print('✅ Historial cargado: ${pedidos.length} pedidos');
+      debugPrint('✅ Historial cargado: ${pedidos.length} pedidos');
       return pedidos;
     } catch (e) {
-      print('❌ Error cargando historial: $e');
+      debugPrint('❌ Error cargando historial: $e');
       return [];
     }
   }
@@ -241,9 +258,9 @@ class DatabaseService {
       final box = historialBox;
       await box.delete(id);
       await box.flush();
-      print('✅ Pedido eliminado: $id');
+      debugPrint('✅ Pedido eliminado: $id');
     } catch (e) {
-      print('❌ Error eliminando pedido: $e');
+      debugPrint('❌ Error eliminando pedido: $e');
       rethrow;
     }
   }
@@ -267,9 +284,9 @@ class DatabaseService {
 
       await box.put('datos_cliente', datosCliente);
       await box.flush();
-      print('✅ Datos del cliente guardados');
+      debugPrint('✅ Datos del cliente guardados');
     } catch (e) {
-      print('❌ Error guardando datos del cliente: $e');
+      debugPrint('❌ Error guardando datos del cliente: $e');
       rethrow;
     }
   }
@@ -280,7 +297,7 @@ class DatabaseService {
       final data = box.get('datos_cliente');
 
       if (data == null) {
-        print('📝 No hay datos del cliente guardados');
+        debugPrint('📝 No hay datos del cliente guardados');
         return {
           'nombre': '',
           'telefono': '',
@@ -288,14 +305,14 @@ class DatabaseService {
         };
       }
 
-      print('✅ Datos del cliente cargados');
+      debugPrint('✅ Datos del cliente cargados');
       return {
         'nombre': data['nombre'] ?? '',
         'telefono': data['telefono'] ?? '',
         'direccion': data['direccion'] ?? '',
       };
     } catch (e) {
-      print('❌ Error cargando datos del cliente: $e');
+      debugPrint('❌ Error cargando datos del cliente: $e');
       return {
         'nombre': '',
         'telefono': '',
@@ -309,10 +326,31 @@ class DatabaseService {
       final box = clienteBox;
       await box.delete('datos_cliente');
       await box.flush();
-      print('✅ Datos del cliente eliminados');
+      debugPrint('✅ Datos del cliente eliminados');
     } catch (e) {
-      print('❌ Error eliminando datos del cliente: $e');
+      debugPrint('❌ Error eliminando datos del cliente: $e');
       rethrow;
+    }
+  }
+
+  // =================== FAVORITOS ===================
+
+  static Set<String> cargarFavoritos() {
+    try {
+      final data = clienteBox.get('favoritos');
+      if (data is List) return data.cast<String>().toSet();
+    } catch (e) {
+      debugPrint('❌ Error cargando favoritos: $e');
+    }
+    return {};
+  }
+
+  static Future<void> guardarFavoritos(Set<String> ids) async {
+    try {
+      await clienteBox.put('favoritos', ids.toList());
+      await clienteBox.flush();
+    } catch (e) {
+      debugPrint('❌ Error guardando favoritos: $e');
     }
   }
 
@@ -328,9 +366,9 @@ class DatabaseService {
       await historialBox.flush();
       await clienteBox.flush();
 
-      print('✅ Toda la base de datos ha sido limpiada');
+      debugPrint('✅ Toda la base de datos ha sido limpiada');
     } catch (e) {
-      print('❌ Error limpiando la base de datos: $e');
+      debugPrint('❌ Error limpiando la base de datos: $e');
       rethrow;
     }
   }
@@ -359,7 +397,7 @@ class DatabaseService {
         },
       };
     } catch (e) {
-      print('❌ Error obteniendo info de debug: $e');
+      debugPrint('❌ Error obteniendo info de debug: $e');
       return {};
     }
   }
@@ -374,7 +412,7 @@ class DatabaseService {
         'cliente': clienteBox.toMap(),
       };
     } catch (e) {
-      print('❌ Error haciendo backup: $e');
+      debugPrint('❌ Error haciendo backup: $e');
       return {};
     }
   }
@@ -407,9 +445,9 @@ class DatabaseService {
       await historialBox.flush();
       await clienteBox.flush();
 
-      print('✅ Backup restaurado exitosamente');
+      debugPrint('✅ Backup restaurado exitosamente');
     } catch (e) {
-      print('❌ Error restaurando backup: $e');
+      debugPrint('❌ Error restaurando backup: $e');
       rethrow;
     }
   }
@@ -421,14 +459,14 @@ class DatabaseService {
       bool historialOk = _historialBoxRef != null && _historialBoxRef!.isOpen;
       bool clienteOk = _clienteBoxRef != null && _clienteBoxRef!.isOpen;
 
-      print('🔍 Verificación de integridad:');
-      print('- Carrito: ${carritoOk ? "✅" : "❌"}');
-      print('- Historial: ${historialOk ? "✅" : "❌"}');
-      print('- Cliente: ${clienteOk ? "✅" : "❌"}');
+      debugPrint('🔍 Verificación de integridad:');
+      debugPrint('- Carrito: ${carritoOk ? "✅" : "❌"}');
+      debugPrint('- Historial: ${historialOk ? "✅" : "❌"}');
+      debugPrint('- Cliente: ${clienteOk ? "✅" : "❌"}');
 
       return carritoOk && historialOk && clienteOk;
     } catch (e) {
-      print('❌ Error verificando integridad: $e');
+      debugPrint('❌ Error verificando integridad: $e');
       return false;
     }
   }
@@ -439,9 +477,9 @@ class DatabaseService {
       await carritoBox.flush();
       await historialBox.flush();
       await clienteBox.flush();
-      print('✅ Datos sincronizados');
+      debugPrint('✅ Datos sincronizados');
     } catch (e) {
-      print('❌ Error sincronizando datos: $e');
+      debugPrint('❌ Error sincronizando datos: $e');
       rethrow;
     }
   }

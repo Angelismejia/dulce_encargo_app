@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 import '../providers/carrito_provider.dart';
 import '../models/pedido.dart';
 import '../utils/colores.dart';
+import '../utils/formato.dart';
+import '../utils/responsive.dart';
+import '../navigation/app_shell.dart';
+import '../widgets/producto_imagen.dart';
 
 class HistorialScreen extends StatefulWidget {
   @override
@@ -33,9 +37,6 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
           tabs: [
             Tab(icon: Icon(Icons.receipt_long), text: 'Pedidos'),
             Tab(icon: Icon(Icons.analytics), text: 'Estadísticas'),
@@ -45,8 +46,8 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
       body: TabBarView(
         controller: _tabController,
         children: [
-          _buildPedidosTab(),
-          _buildEstadisticasTab(),
+          ContenidoCentrado(maxWidth: 820, padding: EdgeInsets.zero, child: _buildPedidosTab()),
+          ContenidoCentrado(maxWidth: 820, padding: EdgeInsets.zero, child: _buildEstadisticasTab()),
         ],
       ),
     );
@@ -126,7 +127,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
           ),
           SizedBox(height: 30),
           ElevatedButton.icon(
-            onPressed: () => Navigator.pushNamed(context, '/catalogo'),
+            onPressed: () => AppShell.irA(Seccion.catalogo),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -263,7 +264,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    pedido.estado,
+                    pedido.estado == 'Pendiente' ? 'Por confirmar' : pedido.estado,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -284,7 +285,10 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                 // Información del cliente
                 _buildInfoRow(Icons.person, pedido.nombreCliente),
                 _buildInfoRow(Icons.phone, pedido.telefono),
-                _buildInfoRow(Icons.location_on, pedido.direccion),
+                _buildInfoRow(pedido.esRecogida ? Icons.storefront : Icons.location_on,
+                    pedido.esRecogida ? 'Recoger en tienda' : pedido.direccion),
+                if (pedido.mensajePastel != null)
+                  _buildInfoRow(Icons.cake_outlined, '"${pedido.mensajePastel}"'),
 
                 SizedBox(height: 15),
 
@@ -292,18 +296,18 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50],
+                    color: AppColors.rosaClaro,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.blue[200]!),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.schedule, color: Colors.blue[700], size: 20),
+                      Icon(Icons.schedule, color: AppColors.rosaFuerte, size: 20),
                       SizedBox(width: 8),
                       Text(
                         'Entrega: ${_formatearFechaCompleta(pedido.fechaEntrega)}',
                         style: TextStyle(
-                          color: Colors.blue[700],
+                          color: AppColors.rosaFuerte,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -372,7 +376,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total: RD\$ ${pedido.total.toStringAsFixed(0)}',
+                      'Total: ${formatoPrecio(pedido.total)}',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -392,8 +396,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                             ],
                           ),
                         ),
-                        if (pedido.estado.toLowerCase() == 'pendiente')
-                          PopupMenuItem(
+                        PopupMenuItem(
                             value: 'duplicar',
                             child: Row(
                               children: [
@@ -452,15 +455,12 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
       padding: EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Container(
-            width: 35,
-            height: 35,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              image: DecorationImage(
-                image: NetworkImage(item.producto.imagen),
-                fit: BoxFit.cover,
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: ProductoImagen(src: item.producto.imagen, anchoDecodificado: 44),
             ),
           ),
           SizedBox(width: 10),
@@ -488,7 +488,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
             ),
           ),
           Text(
-            'RD\$ ${item.subtotal.toStringAsFixed(0)}',
+            formatoPrecio(item.subtotal),
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -572,9 +572,9 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                 Expanded(
                   child: _buildEstadisticaItem(
                     'Total Gastado',
-                    'RD\$ ${carrito.totalGastado.toStringAsFixed(0)}',
+                    formatoPrecio(carrito.totalGastado),
                     Icons.attach_money,
-                    Colors.green,
+                    AppColors.success,
                   ),
                 ),
               ],
@@ -585,9 +585,9 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                 Expanded(
                   child: _buildEstadisticaItem(
                     'Promedio por Pedido',
-                    'RD\$ ${(carrito.totalGastado / carrito.totalPedidosRealizados).toStringAsFixed(0)}',
+                    formatoPrecio(carrito.totalGastado / carrito.totalPedidosRealizados),
                     Icons.trending_up,
-                    Colors.blue,
+                    AppColors.rosaFuerte,
                   ),
                 ),
                 Expanded(
@@ -595,7 +595,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                     'Pendientes',
                     carrito.pedidosPendientes.length.toString(),
                     Icons.pending,
-                    Colors.orange,
+                    AppColors.warning,
                   ),
                 ),
               ],
@@ -687,9 +687,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
 
   Widget _buildProductosMasPedidos(CarritoProvider carrito) {
     final productos = carrito.obtenerProductosMasPedidos();
-    final top5 = productos.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value))
-      ..take(5);
+    final top5 = (productos.entries.toList()..sort((a, b) => b.value.compareTo(a.value))).take(5).toList();
 
     return Card(
       elevation: 4,
@@ -708,7 +706,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
               ),
             ),
             SizedBox(height: 15),
-            ...top5.take(5).toList().asMap().entries.map((entry) {
+            ...top5.asMap().entries.map((entry) {
               final index = entry.key;
               final producto = entry.value;
               return Padding(
@@ -866,7 +864,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
                             ),
                           ),
                           Text(
-                            'RD\$ ${pedido.total.toStringAsFixed(0)}',
+                            formatoPrecio(pedido.total),
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -904,12 +902,13 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
               await carrito.duplicarPedido(pedido.id);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  persist: false,
                   content: Text('Productos agregados al carrito'),
                   backgroundColor: AppColors.success,
                   action: SnackBarAction(
                     label: 'Ver Carrito',
                     textColor: Colors.white,
-                    onPressed: () => Navigator.pushNamed(context, '/carrito'),
+                    onPressed: () => AppShell.irA(Seccion.carrito),
                   ),
                 ),
               );
@@ -939,6 +938,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
               await carrito.eliminarPedido(pedido.id);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  persist: false,
                   content: Text('Pedido eliminado'),
                   backgroundColor: Colors.red,
                 ),
@@ -952,22 +952,7 @@ class _HistorialScreenState extends State<HistorialScreen> with SingleTickerProv
     );
   }
 
-  Color _getEstadoColor(String estado) {
-    switch (estado.toLowerCase()) {
-      case 'pendiente':
-        return Colors.amber;
-      case 'en proceso':
-        return Colors.blue;
-      case 'listo':
-        return AppColors.success;
-      case 'entregado':
-        return Colors.green[700]!;
-      case 'cancelado':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
+  Color _getEstadoColor(String estado) => AppColors.estado(estado);
 
   String _formatearFecha(DateTime fecha) {
     final ahora = DateTime.now();
