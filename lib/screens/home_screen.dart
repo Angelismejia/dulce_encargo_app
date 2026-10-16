@@ -11,6 +11,7 @@ import '../widgets/encabezado.dart';
 import '../widgets/pie_pagina.dart';
 import '../widgets/producto_card.dart';
 import '../widgets/producto_detalle.dart';
+import '../widgets/resenas.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -69,6 +70,13 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 48),
                   ],
                 ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                color: AppColors.rosaClaro,
+                padding: EdgeInsets.symmetric(vertical: movil ? 32 : 48),
+                child: movil ? const SeccionResenas() : const ContenidoCentrado(child: SeccionResenas()),
               ),
             ),
             const SliverToBoxAdapter(child: PiePagina()),
