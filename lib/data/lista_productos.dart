@@ -9,7 +9,7 @@ class ListaProductos {
         nombre: 'Cupcake de Vainilla',
         descripcion: 'Delicioso cupcake de vainilla con frosting de mantequilla',
         precio: 85.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.GA_Hw1L4U741iTQmfK903QHaE6?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/cupcake_vainilla.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -17,7 +17,7 @@ class ListaProductos {
         nombre: 'Cupcake de Chocolate',
         descripcion: 'Rico cupcake de chocolate con crema de chocolate',
         precio: 90.0,
-        imagen: 'https://www.ifyougiveablondeakitchen.com/wp-content/uploads/2021/02/chocolate-cupcakes-open-graph-image-564x564.jpg',
+        imagen: 'assets/images/productos/cupcake_chocolate.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -25,7 +25,7 @@ class ListaProductos {
         nombre: 'Cupcake Red Velvet',
         descripcion: 'Clásico red velvet con cream cheese frosting',
         precio: 100.0,
-        imagen: 'https://freshaprilflours.com/wp-content/uploads/2017/09/rv-cupcakes-07.jpg',
+        imagen: 'assets/images/productos/cupcake_red_velvet.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -33,7 +33,7 @@ class ListaProductos {
         nombre: 'Cupcake de Limón',
         descripcion: 'Fresco cupcake de limón con frosting cítrico',
         precio: 95.0,
-        imagen: 'https://th.bing.com/th/id/R.3381908899a49281c1a75f5d68f22b73?rik=%2bm1%2bNxJ%2fLgyE5g&riu=http%3a%2f%2fwww.olequerecetas.com%2fwp-content%2fuploads%2f2015%2f10%2fIMG_0746-1024x683.jpg&ehk=LmNjXxKBcs4wlK1xmFaPcXXb7hRlSPcMLbgUipb4q%2bA%3d&risl=&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/cupcake_limon.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -41,7 +41,7 @@ class ListaProductos {
         nombre: 'Cupcake de Fresa',
         descripcion: 'Cupcake de fresa con crema rosada y decoración',
         precio: 105.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.Kcn45gR6fmJtER3CuTQupwHaHa?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/cupcake_fresa.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -49,7 +49,7 @@ class ListaProductos {
         nombre: 'Cupcake de Nutella',
         descripcion: 'Cupcake relleno de Nutella con frosting de avellana',
         precio: 110.0,
-        imagen: 'https://www.barleyandsage.com/wp-content/uploads/2023/01/nutella-cupcakes-1200x1200-1.jpg',
+        imagen: 'assets/images/productos/cupcake_nutella.jpg',
         categoria: 'Cupcakes',
       ),
       Producto(
@@ -57,7 +57,7 @@ class ListaProductos {
         nombre: 'Cupcake de Café',
         descripcion: 'Cupcake con sabor a café y frosting de moca',
         precio: 100.0,
-        imagen: 'https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400',
+        imagen: 'assets/images/productos/cupcake_cafe.jpg',
         categoria: 'Cupcakes',
       ),
 
@@ -67,7 +67,7 @@ class ListaProductos {
         nombre: 'Bizcocho de Cumpleaños',
         descripcion: 'Bizcocho personalizado de vainilla con decoración especial',
         precio: 1200.0,
-        imagen: 'https://i.pinimg.com/736x/52/43/61/5243618c0ae0761bd63570ed3c510eba.jpg',
+        imagen: 'assets/images/productos/bizcocho_cumpleanos.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -75,7 +75,7 @@ class ListaProductos {
         nombre: 'Torta Tres Leches',
         descripcion: 'Tradicional tres leches dominicana con canela',
         precio: 1500.0,
-        imagen: 'https://th.bing.com/th/id/R.d21ee8bba9a64aaf4dbdc7133c869f09?rik=IGqhoOu9XC9IZg&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/torta_tres_leches.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -83,7 +83,7 @@ class ListaProductos {
         nombre: 'Bizcocho de Chocolate',
         descripcion: 'Húmedo bizcocho de chocolate con ganache',
         precio: 1350.0,
-        imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
+        imagen: 'assets/images/productos/bizcocho_chocolate.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -91,7 +91,7 @@ class ListaProductos {
         nombre: 'Torta de Zanahoria',
         descripcion: 'Esponjosa torta de zanahoria con frosting de queso crema',
         precio: 1400.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.Z3S_5MpVd49dz_5rPfWIUwHaE8?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/torta_zanahoria.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -99,7 +99,7 @@ class ListaProductos {
         nombre: 'Torta de Piña',
         descripcion: 'Torta tropical de piña con crema de coco',
         precio: 1300.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.fWqTRY9XeKv9e0WRYENs8gHaEK?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/torta_pina.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -107,7 +107,7 @@ class ListaProductos {
         nombre: 'Torta de Boda',
         descripcion: 'Elegante torta de varios pisos para bodas',
         precio: 3500.0,
-        imagen: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=400',
+        imagen: 'assets/images/productos/torta_boda.jpg',
         categoria: 'Bizcochos',
       ),
       Producto(
@@ -115,7 +115,7 @@ class ListaProductos {
         nombre: 'Torta Selva Negra',
         descripcion: 'Clásica torta alemana con cerezas y crema',
         precio: 1600.0,
-        imagen: 'https://tse3.mm.bing.net/th/id/OIP.r5iSQ7jM8rcwT5FU3to7PgHaHa?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/torta_selva_negra.jpg',
         categoria: 'Bizcochos',
       ),
 
@@ -125,7 +125,7 @@ class ListaProductos {
         nombre: 'Flan de Coco',
         descripcion: 'Cremoso flan de coco con caramelo casero',
         precio: 150.0,
-        imagen: 'https://i0.wp.com/scruffandsteph.com/wp-content/uploads/2020/11/Banh-Flan-5.jpg?fit=750%2C1125&ssl=1',
+        imagen: 'assets/images/productos/flan_coco.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -133,7 +133,7 @@ class ListaProductos {
         nombre: 'Flan de Vainilla',
         descripcion: 'Clásico flan de vainilla con textura perfecta',
         precio: 120.0,
-        imagen: 'https://th.bing.com/th/id/R.6aa9beffc3cf1dab1906a9392237fb17?rik=TD%2fX4aTe3zTizg&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/flan_vainilla.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -141,7 +141,7 @@ class ListaProductos {
         nombre: 'Majarete',
         descripcion: 'Tradicional majarete dominicano con canela',
         precio: 100.0,
-        imagen: 'https://1.bp.blogspot.com/-axnq9JJknPI/YGTCp5VMtgI/AAAAAAAANKM/Fk5eSRZxaMQtf6QPsQn4hrlsKrREssR5ACLcBGAsYHQ/s0/majarete-coco-venezolano-receta.jpg',
+        imagen: 'assets/images/productos/majarete.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -149,7 +149,7 @@ class ListaProductos {
         nombre: 'Tembleque',
         descripcion: 'Postre de coco cremoso estilo caribeño',
         precio: 130.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.bk3wb_StKifw3uYVuv2fYAHaEU?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/tembleque.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -157,7 +157,7 @@ class ListaProductos {
         nombre: 'Dulce de Leche Cortada',
         descripcion: 'Tradicional dulce dominicano de leche cuajada',
         precio: 140.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.0PSosJAwBXLdq7zP_mPPyQHaDB?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/dulce_leche_cortada.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -165,7 +165,7 @@ class ListaProductos {
         nombre: 'Arroz con Leche',
         descripcion: 'Cremoso arroz con leche y canela',
         precio: 90.0,
-        imagen: 'https://tse2.mm.bing.net/th/id/OIP.ubgcbcPphzGWcyPhDAnXOwHaE8?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/arroz_con_leche.jpg',
         categoria: 'Postres Tradicionales',
       ),
       Producto(
@@ -173,7 +173,7 @@ class ListaProductos {
         nombre: 'Habichuelas con Dulce',
         descripcion: 'Postre tradicional dominicano de Semana Santa',
         precio: 160.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.tx5eHZ8154tcs9nmg5mASwHaHs?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/habichuelas_con_dulce.jpg',
         categoria: 'Postres Tradicionales',
       ),
 
@@ -183,7 +183,7 @@ class ListaProductos {
         nombre: 'Galletas de Avena',
         descripcion: 'Galletas caseras de avena con pasas (docena)',
         precio: 200.0,
-        imagen: 'https://sazondemama.com/wp-content/uploads/2023/02/Receta-de-galletas-de-avena-casera-y-sencilla-1024x576.jpg',
+        imagen: 'assets/images/productos/galletas_avena.jpg',
         categoria: 'Galletas',
       ),
       Producto(
@@ -191,7 +191,7 @@ class ListaProductos {
         nombre: 'Galletas de Chocolate Chip',
         descripcion: 'Clásicas galletas con chispas de chocolate (docena)',
         precio: 220.0,
-        imagen: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
+        imagen: 'assets/images/productos/galletas_chocolate_chip.jpg',
         categoria: 'Galletas',
       ),
       Producto(
@@ -199,7 +199,7 @@ class ListaProductos {
         nombre: 'Galletas de Mantequilla',
         descripcion: 'Delicadas galletas de mantequilla tipo danesas (docena)',
         precio: 180.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.LBZtdF7dtcHBXb80Sct6gAHaEK?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/galletas_mantequilla.jpg',
         categoria: 'Galletas',
       ),
       Producto(
@@ -207,7 +207,7 @@ class ListaProductos {
         nombre: 'Galletas de Jengibre',
         descripcion: 'Especiadas galletas de jengibre con glaseado (docena)',
         precio: 210.0,
-        imagen: 'https://th.bing.com/th/id/R.46f3006b436afe3bb32f23f5fd9299a5?rik=VIluC6LymYQPuA&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/galletas_jengibre.jpg',
         categoria: 'Galletas',
       ),
       Producto(
@@ -215,7 +215,7 @@ class ListaProductos {
         nombre: 'Galletas Decoradas',
         descripcion: 'Galletas personalizadas con royal icing (docena)',
         precio: 350.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.RKsbT0KTvF8ksz_8xY_J3wHaE8?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/galletas_decoradas.jpg',
         categoria: 'Galletas',
       ),
       Producto(
@@ -223,7 +223,7 @@ class ListaProductos {
         nombre: 'Macarons Franceses',
         descripcion: 'Delicados macarons en varios sabores (6 unidades)',
         precio: 400.0,
-        imagen: 'https://tse1.explicit.bing.net/th/id/OIP.SOf739BkNJ0KGVX518ezDQHaEK?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/macarons.jpg',
         categoria: 'Galletas',
       ),
 
@@ -233,7 +233,7 @@ class ListaProductos {
         nombre: 'Cheesecake de Fresa',
         descripcion: 'Cremoso cheesecake con coulis de fresa',
         precio: 300.0,
-        imagen: 'https://recetastips.com/wp-content/uploads/2020/08/Cheescake-de-Fresa-Casero-1024x631.jpg',
+        imagen: 'assets/images/productos/cheesecake_fresa.jpg',
         categoria: 'Cheesecakes',
       ),
       Producto(
@@ -241,7 +241,7 @@ class ListaProductos {
         nombre: 'Cheesecake Clásico',
         descripcion: 'Tradicional cheesecake de Nueva York',
         precio: 280.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.bhQj5oTELMQmveD9WiAldQHaDt?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/cheesecake_clasico.jpg',
         categoria: 'Cheesecakes',
       ),
       Producto(
@@ -249,7 +249,7 @@ class ListaProductos {
         nombre: 'Cheesecake de Chocolate',
         descripcion: 'Rico cheesecake de chocolate con base de oreo',
         precio: 320.0,
-        imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
+        imagen: 'assets/images/productos/cheesecake_chocolate.jpg',
         categoria: 'Cheesecakes',
       ),
       Producto(
@@ -257,7 +257,7 @@ class ListaProductos {
         nombre: 'Cheesecake de Limón',
         descripcion: 'Refrescante cheesecake cítrico con merengue',
         precio: 290.0,
-        imagen: 'https://cdn2.cocinadelirante.com/sites/default/files/images/2018/10/receta-facil-de-cheesecake-de-limon-con-leche-condensada.jpg',
+        imagen: 'assets/images/productos/cheesecake_limon.jpg',
         categoria: 'Cheesecakes',
       ),
       Producto(
@@ -265,7 +265,7 @@ class ListaProductos {
         nombre: 'Cheesecake de Mango',
         descripcion: 'Tropical cheesecake con pulpa de mango fresco',
         precio: 310.0,
-        imagen: 'https://th.bing.com/th/id/R.8f3276a14e4cd0abdd1f340abe398806?rik=8livpAK9JpP79w&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/cheesecake_mango.jpg',
         categoria: 'Cheesecakes',
       ),
 
@@ -275,7 +275,7 @@ class ListaProductos {
         nombre: 'Tiramisu',
         descripcion: 'Tradicional tiramisu italiano con café',
         precio: 280.0,
-        imagen: 'https://tse2.mm.bing.net/th/id/OIP.oaWrk1R6gByozG1bBIOt4QHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/tiramisu.jpg',
         categoria: 'Postres Especiales',
       ),
       Producto(
@@ -283,7 +283,7 @@ class ListaProductos {
         nombre: 'Crème Brûlée',
         descripcion: 'Elegante crema francesa con azúcar caramelizada',
         precio: 200.0,
-        imagen: 'https://natashaskitchen.com/wp-content/uploads/2020/02/Creme-Brule-Recipe-SQ.jpg',
+        imagen: 'assets/images/productos/creme_brulee.jpg',
         categoria: 'Postres Especiales',
       ),
       Producto(
@@ -291,7 +291,7 @@ class ListaProductos {
         nombre: 'Panna Cotta',
         descripcion: 'Sedosa panna cotta italiana con frutos rojos',
         precio: 180.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.8tD4z8Lqz60gZUKwFfMFpQHaHa?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/panna_cotta.jpg',
         categoria: 'Postres Especiales',
       ),
       Producto(
@@ -299,7 +299,7 @@ class ListaProductos {
         nombre: 'Profiteroles',
         descripcion: 'Deliciosos profiteroles rellenos de crema pastelera',
         precio: 250.0,
-        imagen: 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/ccac195b-74e0-43cd-8e62-3ce5226c537c/Derivates/8325f995-298f-45b4-87e9-ce13eabd51cd.jpg',
+        imagen: 'assets/images/productos/profiteroles.jpg',
         categoria: 'Postres Especiales',
       ),
       Producto(
@@ -307,7 +307,7 @@ class ListaProductos {
         nombre: 'Éclair de Chocolate',
         descripcion: 'Clásicos éclairs franceses con crema y chocolate',
         precio: 120.0,
-        imagen: 'https://tse3.mm.bing.net/th/id/OIP.nou9zqqdX1rfgZBIX0DZ2AHaE7?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/eclair_chocolate.jpg',
         categoria: 'Postres Especiales',
       ),
 
@@ -317,7 +317,7 @@ class ListaProductos {
         nombre: 'Mousse de Chocolate',
         descripcion: 'Ligero y cremoso mousse de chocolate belga',
         precio: 180.0,
-        imagen: 'https://tse1.explicit.bing.net/th/id/OIP.HSQmLSDLfnSM4gIMkvj-YAHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/mousse_chocolate.jpg',
         categoria: 'Mousses',
       ),
       Producto(
@@ -325,7 +325,7 @@ class ListaProductos {
         nombre: 'Mousse de Fresa',
         descripcion: 'Suave mousse de fresa con trozos de fruta',
         precio: 170.0,
-        imagen: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400',
+        imagen: 'assets/images/productos/mousse_fresa.jpg',
         categoria: 'Mousses',
       ),
       Producto(
@@ -333,7 +333,7 @@ class ListaProductos {
         nombre: 'Mousse de Limón',
         descripcion: 'Refrescante mousse cítrico con ralladura de limón',
         precio: 175.0,
-        imagen: 'https://th.bing.com/th/id/R.733e83a0229030d1248a7102a2cfcd81?rik=bulre27N8QEVpA&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/mousse_limon.jpg',
         categoria: 'Mousses',
       ),
       Producto(
@@ -341,7 +341,7 @@ class ListaProductos {
         nombre: 'Mousse de Maracuyá',
         descripcion: 'Exótico mousse tropical de maracuyá',
         precio: 185.0,
-        imagen: 'https://tse3.mm.bing.net/th/id/OIP.IbBcnhNWFccfA7EwOtVccwHaE7?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/mousse_maracuya.jpg',
         categoria: 'Mousses',
       ),
 
@@ -351,7 +351,7 @@ class ListaProductos {
         nombre: 'Tarta de Manzana',
         descripcion: 'Clásica tarta de manzana con canela y masa crujiente',
         precio: 450.0,
-        imagen: 'https://th.bing.com/th/id/R.ac98cb4f446ede84576f246d3c94c5fb?rik=wuXev%2b4Z3PEUVQ&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/tarta_manzana.jpg',
         categoria: 'Tartas',
       ),
       Producto(
@@ -359,7 +359,7 @@ class ListaProductos {
         nombre: 'Tarta de Chocolate',
         descripcion: 'Rica tarta de chocolate con ganache y nueces',
         precio: 480.0,
-        imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
+        imagen: 'assets/images/productos/tarta_chocolate.jpg',
         categoria: 'Tartas',
       ),
       Producto(
@@ -367,7 +367,7 @@ class ListaProductos {
         nombre: 'Tarta de Frutas',
         descripcion: 'Colorida tarta con crema pastelera y frutas frescas',
         precio: 520.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.WibjRHAlcNyjHqEv2X0WbgHaE6?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/tarta_frutas.jpg',
         categoria: 'Tartas',
       ),
       Producto(
@@ -375,7 +375,7 @@ class ListaProductos {
         nombre: 'Key Lime Pie',
         descripcion: 'Auténtico pie de lima con base de galleta graham',
         precio: 350.0,
-        imagen: 'https://tse2.mm.bing.net/th/id/OIP.5EpafbNCIXsWrune-PwhBQHaLH?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/key_lime_pie.jpg',
         categoria: 'Tartas',
       ),
       Producto(
@@ -383,7 +383,7 @@ class ListaProductos {
         nombre: 'Tarta de Queso y Arándanos',
         descripcion: 'Tarta cremosa con queso mascarpone y arándanos',
         precio: 420.0,
-        imagen: 'https://tse1.mm.bing.net/th/id/OIP.RYri5J644S18m5Mi-YOTpwHaGW?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/tarta_queso_arandanos.jpg',
         categoria: 'Tartas',
       ),
 
@@ -393,7 +393,7 @@ class ListaProductos {
         nombre: 'Helado Artesanal de Vainilla',
         descripcion: 'Cremoso helado casero de vainilla (1 litro)',
         precio: 300.0,
-        imagen: 'https://tse2.mm.bing.net/th/id/OIP.aYCUP-wg5VYEtdaJ6x2mZAHaE8?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/helado_vainilla.jpg',
         categoria: 'Postres Fríos',
       ),
       Producto(
@@ -401,7 +401,7 @@ class ListaProductos {
         nombre: 'Helado de Chocolate',
         descripcion: 'Intenso helado de chocolate belga (1 litro)',
         precio: 320.0,
-        imagen: 'https://th.bing.com/th/id/R.0f01f41afb790b18d242df2a761cea75?rik=XLShZJyvkX%2b9SQ&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/helado_chocolate.jpg',
         categoria: 'Postres Fríos',
       ),
       Producto(
@@ -409,7 +409,7 @@ class ListaProductos {
         nombre: 'Sorbete de Limón',
         descripcion: 'Refrescante sorbete natural de limón (1 litro)',
         precio: 250.0,
-        imagen: 'https://www.moncloa.com/wp-content/uploads/2020/06/sorbete-2-1024x683.jpg',
+        imagen: 'assets/images/productos/sorbete_limon.jpg',
         categoria: 'Postres Fríos',
       ),
       Producto(
@@ -417,7 +417,7 @@ class ListaProductos {
         nombre: 'Copa Helada de Frutas',
         descripcion: 'Deliciosa copa con helado, frutas y crema',
         precio: 180.0,
-        imagen: 'https://www.espectacular.com.ar/u/fotografias/m/2023/9/24/f1280x720-63092_194767_5245.jpg',
+        imagen: 'assets/images/productos/copa_helada_frutas.jpg',
         categoria: 'Postres Fríos',
       ),
 
@@ -427,7 +427,7 @@ class ListaProductos {
         nombre: 'Brownies Clásicos',
         descripcion: 'Fudgy brownies con nueces (bandeja de 12)',
         precio: 400.0,
-        imagen: 'https://bellyfull.net/wp-content/uploads/2022/03/Baileys-Brownies-blog-5-768x535.jpg',
+        imagen: 'assets/images/productos/brownies.jpg',
         categoria: 'Brownies',
       ),
       Producto(
@@ -435,7 +435,7 @@ class ListaProductos {
         nombre: 'Blondies',
         descripcion: 'Brownies de chocolate blanco con almendras (bandeja de 12)',
         precio: 380.0,
-        imagen: 'https://th.bing.com/th/id/R.07f5f1631ced9fd0416853b39d4b0127?rik=78QLlrFdjdCDrQ&riu=http%3a%2f%2f2.bp.blogspot.com%2f-d0_5Z_Qu4Os%2fUcc8VvDo2XI%2fAAAAAAAABzE%2fEGAeB8NI8m0%2fs1600%2fBlondies%2b02.jpg&ehk=jumkQTy8h0g85Xvo%2bypMz%2f%2fgjDZgkyYY44JqUQRmevU%3d&risl=&pid=ImgRaw&r=0',
+        imagen: 'assets/images/productos/blondies.jpg',
         categoria: 'Brownies',
       ),
       Producto(
@@ -443,7 +443,7 @@ class ListaProductos {
         nombre: 'Lemon Bars',
         descripcion: 'Barras de limón con base de masa mantecosa (bandeja de 12)',
         precio: 350.0,
-        imagen: 'https://www.tasteofhome.com/wp-content/uploads/2018/01/Classic-Lemon-Bars_EXPS_DIYD20_20400_E02_20_6b.jpg',
+        imagen: 'assets/images/productos/lemon_bars.jpg',
         categoria: 'Brownies',
       ),
 
@@ -453,7 +453,7 @@ class ListaProductos {
         nombre: 'Muffins de Arándanos',
         descripcion: 'Esponjosos muffins con arándanos frescos (6 unidades)',
         precio: 240.0,
-        imagen: 'https://www.pequerecetas.com/wp-content/uploads/2010/11/muffins-con-arandanos-receta.jpg',
+        imagen: 'assets/images/productos/muffins_arandanos.jpg',
         categoria: 'Muffins',
       ),
       Producto(
@@ -461,7 +461,7 @@ class ListaProductos {
         nombre: 'Muffins de Chocolate',
         descripcion: 'Muffins doble chocolate con chispas (6 unidades)',
         precio: 260.0,
-        imagen: 'https://recetinas.com/wp-content/uploads/2018/04/muffins-de-chocolate.jpg',
+        imagen: 'assets/images/productos/muffins_chocolate.jpg',
         categoria: 'Muffins',
       ),
       Producto(
@@ -469,7 +469,7 @@ class ListaProductos {
         nombre: 'Muffins de Banana',
         descripcion: 'Húmedos muffins de plátano con nueces (6 unidades)',
         precio: 230.0,
-        imagen: 'https://therichrecipe.com/wp-content/uploads/2023/07/Banana-Muffins.webp',
+        imagen: 'assets/images/productos/muffins_banana.jpg',
         categoria: 'Muffins',
       ),
 
@@ -479,7 +479,7 @@ class ListaProductos {
         nombre: 'Pan de Banana',
         descripcion: 'Aromático pan dulce de plátano maduro',
         precio: 200.0,
-        imagen: 'https://www.recetas.com.pa/sites/default/files/2016-12/pan_de_banana1280x700.jpg',
+        imagen: 'assets/images/productos/pan_banana.jpg',
         categoria: 'Panes Dulces',
       ),
       Producto(
@@ -487,7 +487,7 @@ class ListaProductos {
         nombre: 'Pan de Calabaza',
         descripcion: 'Especiado pan de calabaza con canela y nuez moscada',
         precio: 220.0,
-        imagen: 'https://img.cocinarico.es/2020-05/pan-de-calabaza-1.jpg',
+        imagen: 'assets/images/productos/pan_calabaza.jpg',
         categoria: 'Panes Dulces',
       ),
       Producto(
@@ -495,8 +495,9 @@ class ListaProductos {
         nombre: 'Stollen Navideño',
         descripcion: 'Tradicional pan alemán con frutas confitadas',
         precio: 450.0,
-        imagen: 'https://tse4.mm.bing.net/th/id/OIP.pdviOYAXvzyCJnMaBXzwPwHaD4?r=0&cb=thfvnext&w=1146&h=600&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/stollen.jpg',
         categoria: 'Panes Dulces',
+        disponible: false,
       ),
 
       // Postres Sin Azúcar
@@ -505,7 +506,7 @@ class ListaProductos {
         nombre: 'Brownie Sin Azúcar',
         descripcion: 'Delicioso brownie endulzado con stevia (4 unidades)',
         precio: 280.0,
-        imagen: 'https://tse3.mm.bing.net/th/id/OIP.ikT5i3qI1RxDVxNVnH13fQHaEi?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/brownie_sin_azucar.jpg',
         categoria: 'Sin Azúcar',
       ),
       Producto(
@@ -513,7 +514,7 @@ class ListaProductos {
         nombre: 'Cheesecake Sin Azúcar',
         descripcion: 'Cremoso cheesecake con edulcorante natural',
         precio: 350.0,
-        imagen: 'https://2.bp.blogspot.com/-iaTS3yIS_EI/XLdcccv4yLI/AAAAAAABPwU/OWugD7VEAiYnIRIKI2V7zRaBEzFCsFtxgCLcBGAs/s1600/Cheesecake-sin-az%25C3%25BAcar.jpg',
+        imagen: 'assets/images/productos/cheesecake_sin_azucar.jpg',
         categoria: 'Sin Azúcar',
       ),
       Producto(
@@ -521,11 +522,71 @@ class ListaProductos {
         nombre: 'Galletas de Avena Sin Azúcar',
         descripcion: 'Saludables galletas endulzadas con dátiles (docena)',
         precio: 250.0,
-        imagen: 'https://tse2.mm.bing.net/th/id/OIP.kCnJ-E9BjTd2Mf5Ah0GD5gHaE8?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+        imagen: 'assets/images/productos/galletas_avena_sin_azucar.jpg',
         categoria: 'Sin Azúcar',
       ),
     ];
   }
+
+  static final List<Producto> _cache = obtenerProductos();
+
+  static Producto? buscarPorId(String id) {
+    for (final p in _cache) {
+      if (p.id == id) return p;
+    }
+    return null;
+  }
+
+  /// Productos destacados en la pantalla de inicio.
+  static List<Producto> destacados() => ['5', '3', '7', '30', '14', '44', '13', '26']
+      .map(buscarPorId)
+      .whereType<Producto>()
+      .toList();
+
+  /// Ocasiones que se muestran como círculos en inicio y catálogo.
+  static const List<String> ocasiones = ['Cumpleaños', 'Eventos', 'Bodas', 'Para ti'];
+
+  static const Map<String, List<String>> _ocasionesPorCategoria = {
+    'Cupcakes': ['Cumpleaños', 'Eventos', 'Bodas', 'Para ti'],
+    'Bizcochos': ['Cumpleaños', 'Eventos'],
+    'Postres Tradicionales': ['Para ti', 'Eventos'],
+    'Galletas': ['Eventos', 'Para ti'],
+    'Cheesecakes': ['Cumpleaños', 'Eventos', 'Para ti'],
+    'Postres Especiales': ['Bodas', 'Eventos', 'Para ti'],
+    'Mousses': ['Para ti', 'Eventos'],
+    'Tartas': ['Cumpleaños', 'Eventos', 'Para ti'],
+    'Postres Fríos': ['Para ti', 'Cumpleaños'],
+    'Brownies': ['Eventos', 'Para ti'],
+    'Muffins': ['Para ti', 'Eventos'],
+    'Panes Dulces': ['Para ti'],
+    'Sin Azúcar': ['Para ti'],
+  };
+
+  static const Map<String, List<String>> _ocasionesPorProducto = {
+    '22': ['Bodas', 'Eventos'], // Torta de Boda
+    '29': ['Cumpleaños', 'Bodas', 'Eventos'], // Galletas Decoradas
+    '30': ['Bodas', 'Eventos', 'Para ti'], // Macarons
+  };
+
+  static List<String> ocasionesDe(Producto p) =>
+      _ocasionesPorProducto[p.id] ?? _ocasionesPorCategoria[p.categoria] ?? const ['Para ti'];
+
+  /// Imagen representativa de cada categoría.
+  static const Map<String, String> imagenCategoria = {
+    'Cupcakes': 'assets/images/productos/cupcake_fresa.jpg',
+    'Bizcochos': 'assets/images/productos/torta_selva_negra.jpg',
+    'Postres Tradicionales': 'assets/images/productos/flan_coco.jpg',
+    'Galletas': 'assets/images/productos/galletas_chocolate_chip.jpg',
+    'Cheesecakes': 'assets/images/productos/cheesecake_fresa.jpg',
+    'Postres Especiales': 'assets/images/productos/tiramisu.jpg',
+    'Mousses': 'assets/images/productos/mousse_limon.jpg',
+    'Tartas': 'assets/images/productos/tarta_frutas.jpg',
+    'Postres Fríos': 'assets/images/productos/copa_helada_frutas.jpg',
+    'Brownies': 'assets/images/productos/brownies.jpg',
+    'Muffins': 'assets/images/productos/muffins_arandanos.jpg',
+    'Panes Dulces': 'assets/images/productos/pan_banana.jpg',
+    'Sin Azúcar': 'assets/images/productos/cheesecake_sin_azucar.jpg',
+  };
 
   static List<String> obtenerCategorias() {
     return [
