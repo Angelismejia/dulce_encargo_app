@@ -11,8 +11,6 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
-    - dulce_encargo_app/**
-    - public/**
     - build/**
 
 linter:
