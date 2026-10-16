@@ -89,6 +89,13 @@ flutter test
 
 ## Despliegue
 
+La demo se actualiza sola con GitHub Actions
+([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)): cada push a
+`master` pasa el análisis y las pruebas, compila la versión web y la publica en
+Firebase Hosting. Cada Pull Request recibe además una vista previa temporal.
+
+Para publicar a mano:
+
 ```bash
 flutter build web --release
 npx firebase deploy

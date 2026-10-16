@@ -1,0 +1,57 @@
+# Prueba, compila y publica la app web en Firebase Hosting.
+# - push a master: actualiza la demo en https://dulce-encargo.web.app
+# - pull request: publica una vista previa temporal y deja el enlace en el PR
+name: Desplegar demo
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      # El despliegue se salta (sin fallar) hasta que exista el secreto.
+      HAY_CREDENCIALES: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DULCE_ENCARGO != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.4
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+      - run: flutter build web --release
+
+      - name: Publicar vista previa del PR
+        if: github.event_name == 'pull_request' && env.HAY_CREDENCIALES == 'true'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DULCE_ENCARGO }}
+          projectId: dulce-encargo
+          expires: 7d
+
+      - name: Publicar demo
+        if: github.event_name == 'push' && env.HAY_CREDENCIALES == 'true'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DULCE_ENCARGO }}
+          projectId: dulce-encargo
+          channelId: live
