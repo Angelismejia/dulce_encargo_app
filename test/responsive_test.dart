@@ -59,6 +59,7 @@ void main() {
       addTearDown(tester.view.reset);
 
       await tester.pumpWidget(const DulceEncargoApp());
+      final scrollInicio = find.descendant(of: find.byType(HomeScreen), matching: find.byType(Scrollable)).first;
       await tester.pump(const Duration(seconds: 1));
 
       // Carrito con productos para ver las tarjetas reales.
@@ -70,6 +71,12 @@ void main() {
         await carrito.agregarItem(ListaProductos.buscarPorId('26')!, personalizacion: 'Con galletitas extra, por favor');
       });
       await tester.pump(const Duration(seconds: 1));
+      await tester.scrollUntilVisible(
+        find.text('Mandy Rivas'),
+        400,
+        scrollable: scrollInicio,
+      );
+      await tester.pump(const Duration(milliseconds: 500));
       sinErrores(tester, 'inicio');
 
       for (final seccion in [Seccion.catalogo, Seccion.cupones, Seccion.carrito, Seccion.perfil, Seccion.menu]) {
@@ -91,7 +98,7 @@ void main() {
       AppShell.irA(Seccion.menu);
       await tester.pump(const Duration(seconds: 1));
       final tarjeta = find.descendant(of: find.byType(HomeScreen), matching: find.text('Torta Tres Leches'));
-      await tester.ensureVisible(tarjeta);
+      await tester.scrollUntilVisible(tarjeta, -400, scrollable: scrollInicio);
       await tester.pump(const Duration(milliseconds: 500));
       await tester.tap(tarjeta);
       await tester.pump();
